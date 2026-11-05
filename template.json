@@ -1,0 +1,37 @@
+{
+    "_id": "ssd_capacity_critical_inform",
+    "versions": [
+      {
+        "automationcode": "ssd_capacity_critical_inform",
+        "tags": [
+          "production"
+        ],
+        "version": 0,
+        "autoclose": false,
+        "bug_id": "",
+        "customerimpact": "Space Limits, Discrepancies",
+        "estimatedeffort": "2 hours",
+        "kcs": "[https://nimblestorage.lightning.force.com/lightning/articles/knowledge/5932](https://nimblestorage.lightning.force.com/lightning/articles/knowledge/5932)",
+        "is_nimble_issue": false,
+        "priority": "P1",
+        "rootcause": "User Error / Mis-configuration by Customer",
+        "severity": "Critical",
+        "techarea": "Space",
+        "techsubarea": "Limits (quotas) or reserves",
+        "type": "Production",
+        "subject": "{{fragment \"common.templatewellnesssubject\"}}",
+        "header": "{{fragment \"common.standardheader\"}}",
+        "description": "{{fragment \"common.templatewellnessdescription\"}}\n\n{{fragment \"common.templatewellnessrecommendation\"}}",
+        "footer": "{{fragment \"common.standardfooter\"}}",
+        "recommendation": "",
+        "comment": "{{fragment \"common.standardcomment\"}}",
+        "rmatype": "",
+        "rmareason": "",
+        "rmadetailedreason": "",
+        "plan_of_action": "See also:\n - CFI32266 to resolve any snapshot removal issues.\n - Advisory: HPE Alletra Storage MP B10000 - Manual CompactCPG May Be Required as System Capacity Nears Full\n - Advisory: HPE Alletra Storage MP B10000 - Reported Used Space in UI Does Not Account for All Used Space in the System",
+        "WellnessSubject": "{{.MetaComponentTree.Arcus.SerialNumber}} Total SSD raw space usage is above 95% of total capacity",
+        "WellnessDescription": "{{fragment \"common.standardwellnessdescription\"}}\n\n This is a critical alert and it is important to review space usage and make more space available to ensure that the system does not run out of usable space.\n\nIt is highly recommended to add more space as soon as possible. If all available space is depleted, new writes on all virtual volumes will fail. Contact your authorized service provider to order a capacity upgrade.\n\nCause: Overprovisioning or misconfiguration can cause the system to run out of usable disk space as overall space usage increases over time. \n\nNOTE: For InformOS version prior to 10.5.x , this usage utilization alert may not be clearly shown in the DSCC and/or array GUI. The calculations in the gui tools may not include pre-allocated raw space and is based only on usable capacity.",
+        "WellnessRecommendation": "​{{fragment \"common.standardwellnessrecommendation\"}}​\n\nReview the suggestions below for ways to make more space available:\n\n1. Evaluate reclaiming space from CPGs.\n- Use CLI command \"compactcpg -dr\" to determine how much and how to reclaim space from the Common Provisioning Groups.\n- Use \"compactcpg  without the -dr option to run the task\n\nNote: It is recommended that compactcpg tasks be ran during arrays low activity because this task can add additional IO load in the system.\n\n2. Evaluate snapshots usage as they can use more space over time.\n- Use CLI command \"showvv -s\" . Identify which snapshots are no longer needed and can be deleted.\n- remove snapshots if no longer needed\n- check for snapshot removal failures\n\n3. Evaluate reclaiming space within TPVVs.\n- Use CLI command \"showvv -s\" to see the space currently used by virtual volumes.\n- Unused volumes can be removed from the system and space can be freed up and reclaimed.\n\n4. Check for LDs that are not mapped to a VV.\n- Use CLI command showld to see if an LD is mapped to a VV. Column MapV will show if it is mapped to a volume.\n- Unused logical disks(LDs) can be removed to free up space.\n\n5. Identify volumes that are exported to a host that may no longer be necessary.\n- Use CLI command \"showvlun\" to check the volume to host mapping.\n- virtual LUNS(VLUNs) can be unexported from hosts and volumes associated with them can be removed if no longer needed to free up space.\n\nNote: It is recommended that you re-run compactcpg after deleting data from the array to make sure that free space is reclaimed.\n\n6. Consider tuning the system to optimize the space distribution across disks.\n\n    - Use the tunesys -dr command to determine if there are areas that can be tuned\n    - This action can help consolidated space and allow the system to grow space on the CPGs more efficiently.\n\n    NOTE: Tuning can have impact on host IO performance so make sure to run the tunes when the array is less busy.\n\n7. Add more capacity.\n    - Add more physical disks into the array to increase raw capacity.\n\n8. Also consider upgrading the InformOS to the latest version to take advantage of the new space management features in 10.5.60 and later release.\n\nYou can refer to the Command Line Reference Guide for your version of the OS for more information on the commands.\"\n\n\n"
+      }
+    ]
+  }
